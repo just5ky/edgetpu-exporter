@@ -3,12 +3,12 @@ module github.com/adaptant-labs/edgetpu-exporter
 go 1.13
 toolchain go1.24.1
 
-require github.com/json-iterator/go v1.1.12
 require github.com/prometheus/client_golang v1.21.1
 
 
 require (
 	github.com/beorn7/perks v1.0.1 // indirect
+	github.com/json-iterator/go v1.1.12
 	github.com/cespare/xxhash/v2 v2.3.0 // indirect
 	github.com/klauspost/compress v1.17.11 // indirect
 	github.com/munnerz/goautoneg v0.0.0-20191010083416-a7dc8b61c822 // indirect
