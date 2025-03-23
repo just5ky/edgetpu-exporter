@@ -3,7 +3,7 @@ module github.com/adaptant-labs/edgetpu-exporter
 go 1.13
 toolchain go1.24.1
 
-require github.com/json-iterator/go@v1.1.12
+require github.com/json-iterator/go v1.1.12
 require github.com/prometheus/client_golang v1.21.1
 
 
