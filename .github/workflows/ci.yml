@@ -1,0 +1,40 @@
+name: CI
+
+on:
+  push:
+    branches: ["latest"]
+  pull_request:
+    branches: ["latest"]
+
+jobs:
+  build:
+    name: Build & Verify
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: read
+
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v4
+
+      - name: Set up Go
+        uses: actions/setup-go@v5
+        with:
+          go-version-file: go.mod
+          cache: true
+
+      - name: Verify dependencies
+        run: go mod verify
+
+      - name: Build
+        run: go build -trimpath -ldflags="-s -w" ./...
+
+      - name: Vet
+        run: go vet ./...
+
+      - name: Security scan (govulncheck)
+        uses: golang/govulncheck-action@v1
+        with:
+          go-version-input: "1.26.4"
+          go-package: ./...

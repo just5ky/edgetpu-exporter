@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
         - name: edgetpu-exporter
-          image: adaptant/edgetpu-exporter:latest
+          image: justsky/edgetpu-exporter:latest
           args:
             - "-sysfs=/host-sys"
           ports:

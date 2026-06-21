@@ -2,7 +2,6 @@ package main
 
 import (
 	"fmt"
-	"io/ioutil"
 	"os"
 	"path/filepath"
 	"strconv"
@@ -15,10 +14,10 @@ type EdgeTPUDevice struct {
 }
 
 type EdgeTPUFinder interface {
-	 FindDevices() []EdgeTPUDevice
+	FindDevices() []EdgeTPUDevice
 }
 
-type ApexClassFinder struct {}
+type ApexClassFinder struct{}
 
 func (a ApexClassFinder) FindDevices() []EdgeTPUDevice {
 	devices := make([]EdgeTPUDevice, 0)
@@ -41,10 +40,10 @@ func (a ApexClassFinder) FindDevices() []EdgeTPUDevice {
 	return devices
 }
 
-type UsbDeviceFinder struct {}
+type UsbDeviceFinder struct{}
 
 func readSysfsFile(path string) (string, error) {
-	data, err := ioutil.ReadFile(path)
+	data, err := os.ReadFile(path)
 	if err != nil {
 		return "", fmt.Errorf("failed to read device attribute %s: %v", filepath.Base(path), err)
 	}
@@ -109,7 +108,7 @@ func FindEdgeTPUDevices() []EdgeTPUDevice {
 }
 
 func (d EdgeTPUDevice) Temperature() float64 {
-	data, err := ioutil.ReadFile(d.path + "/temp")
+	data, err := os.ReadFile(d.path + "/temp")
 	if err != nil {
 		return 0.0
 	}

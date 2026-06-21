@@ -1,19 +1,22 @@
-FROM golang as builder
+FROM golang:1.26.4-alpine AS builder
 
-ENV GO111MODULE=on
+ENV CGO_ENABLED=0 \
+    GOOS=linux
 
 WORKDIR /app
 
-COPY go.mod .
-COPY go.sum .
-
+COPY go.mod go.sum ./
 RUN go mod download
 
 COPY . .
+RUN go build -trimpath -ldflags="-s -w" -o edgetpu-exporter .
 
-RUN CGO_ENABLED=0 GOOS=linux go build
+FROM alpine:3.22
 
-FROM scratch
-COPY --from=builder /app/edgetpu-exporter /app/
+RUN addgroup -S exporter && adduser -S -u 1000 -G exporter exporter
 
-ENTRYPOINT [ "/app/edgetpu-exporter" ]
+COPY --from=builder /app/edgetpu-exporter /app/edgetpu-exporter
+
+USER exporter
+
+ENTRYPOINT ["/app/edgetpu-exporter"]
