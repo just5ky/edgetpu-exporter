@@ -11,7 +11,7 @@ RUN go mod download
 COPY . .
 RUN go build -trimpath -ldflags="-s -w" -o edgetpu-exporter .
 
-FROM alpine:3.22
+FROM alpine:3.24
 
 RUN addgroup -S exporter && adduser -S -u 1000 -G exporter exporter
 
